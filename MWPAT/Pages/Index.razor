@@ -1,0 +1,109 @@
+﻿@page "/"
+<!--
+<div class="bg-gray-900">
+    <div class="h-screen mx-8 flex items-center justify-center">
+        <div class="w-1/3 bg-gray-800 rounded">
+            <form class="  grid grid-cols-12  gap-4 px-8 pt-6 mb-2">
+                
+                <div class="col-span-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">PORT</label>
+                    
+
+                    <input class="appearance-none bg-slate-700 rounded w-full py-2 px-4 text-gray-300 leading-tight border-2 outline-none @(stateButton ? "focus:border-blue-500":"cursor-default")"
+                           type="number"
+                           @bind="Puerto"
+                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                           maxlength="5" readonly="@(!stateButton)" >
+                </div>
+                <div class="col-span-4 flex">
+                    <button @onclick="StartSocketService" hidden="@(!stateButton)" class="self-end bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:shadow-outline w-full" type="button">START</button>
+                    <button @onclick="StopSocketService" hidden="@(stateButton)" class="self-end bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:shadow-outline w-full" type="button">STOP</button>
+
+                </div>
+                <div class="col-span-4 flex">
+                    <button @onclick="SendTask" class="self-end text-white font-bold py-2 px-4 rounded focus:shadow-outline w-full @(stateButtonTask ? "bg-cyan-600 hover:bg-cyan-700": "bg-stone-600")" type="button">
+                        <span style="display:@(!stateButtonTask?"none":"block")">RUN TASK</span>
+                        <svg style="display:@(!stateButtonTask?"block":"none")" aria-hidden="true" class="inline mx-auto w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+                    </button>
+                </div>
+               
+            </form>
+            <div class="px-8 mb-4 mt-1">
+                <label class="text-red-900">@messageError</label>
+                <label class="text-green-900">@messageSuccess</label>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+-->
+
+<div class="bg-neutral-900">
+
+    <div class="h-screen flex flex-col justify-center items-center ">
+        <div class="mb-2">
+            <label class="text-gray-400 text-3xl font-bold">MW PAT</label>
+        </div>
+
+        <div class="w-1/6 bg-neutral-800 p-8 rounded">
+
+            <div class="grid grid-cols-12 gap-1">
+
+                <div class="col-span-5 pb-2">
+                    <label class="block text-gray-400 text-sm font-bold mb-2">
+                        PORT
+                    </label>
+                    <div class="appareance-none w-full bg-neutral-700 rounded p-1 pl-4 text-gray-400 border border-1 border-neutral-700 cursor-default">@Puerto</div>
+                </div>
+                <div class="col-span-7 self-start">
+                    <div class="text-white font-bold text-green-700 flex justify-end @(stateButton ? "hidden":"")">
+                        <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="12" r="7" fill="green">
+                                <animate attributeName="opacity" values="0;1;0" dur="2s" keyTimes="0;0.5;1" repeatCount="indefinite" />
+                            </circle>
+                        </svg>
+                        UP
+                    </div>
+
+                    <div class="text-white font-bold flex justify-end items-center @(stateButton ? "":"hidden")">
+                        <svg @onclick="StartSocketService" class="cursor-pointer mr-1" width="15px" height="15px" viewBox="-1 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> <title>UP SERVER</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1"> <g class="fill-green-600 hover:fill-green-800" id="Dribbble-Light-Preview" transform="translate(-65.000000, -3803.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M18.074,3650.7335 L12.308,3654.6315 C10.903,3655.5815 9,3654.5835 9,3652.8985 L9,3645.1015 C9,3643.4155 10.903,3642.4185 12.308,3643.3685 L18.074,3647.2665 C19.306,3648.0995 19.306,3649.9005                                         18.074,3650.7335" id="play-[#1000]"> </path> </g> </g> </g> </g>
+                        </svg>
+
+
+                        <svg class="fill-red-900" width="20px" height="15px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel</title> <path d="M10.771 8.518c-1.144 0.215-2.83 2.171-2.086 2.915l4.573 4.571-4.573 4.571c-0.915 0.915 1.829 3.656 2.744 2.742l4.573-4.571 4.573 4.571c0.915 0.915 3.658-1.829 2.744-2.742l-4.573-4.571 4.573-4.571c0.915-0.915-1.829-3.656-2.744-2.742l-4.573 4.571-4.573-4.571c-0.173-0.171-0.394-0.223-0.657-0.173v0zM16 1c-8.285 0-15 6.716-15 15s6.715 15 15 15 15-6.716 15-15-6.715-15-15-15zM16 4.75c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25-11.25-5.037-11.25-11.25c0.001-6.213 5.037-11.25 11.25-11.25z"></path> </g></svg>
+                        DOWN</div>
+                </div>
+                <div class="col-span-10">
+                    <label class="block text-gray-400 text-sm font-bold mb-2">
+                        LOG DATE
+                    </label>
+                    <input type="date" class="dateschema appareance-none w-full bg-neutral-700 rounded p-1 pl-4 text-gray-400 border border-1 border-neutral-700 cursor-text focus:border-cyan-600 focus:outline-none" @bind="DateLog">
+                </div>
+                <div class="col-span-2 flex ">
+                    <button class="bg-cyan-600 rounded self-end p-2 w-full h-9 hover:bg-cyan-700" title="Descargar Log" @onclick="DownloadLog"><img src="./css/download.svg"></button>
+                </div>
+               <!-- <div class="col-span-12 mt-4">
+                    <button @onclick="SendTask" type="button" class="bg-green-600 rounded self-end w-full h-9 text-white font-bold hover:bg-green-700 @(stateButtonTask ? "bg-cyan-600 hover:bg-green-700": "bg-stone-600")" alt="Descargar Log">
+                        <span style="display:@(!stateButtonTask?"none":"block")">SIMULATE TASK</span>
+                        <svg style="display:@(!stateButtonTask?"block":"none")" aria-hidden="true" class="inline mx-auto w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                        </svg>
+
+                    </button>
+                 </div>-->
+                <div class="col-span-12 mt-1">
+                    <label class="text-red-900">@messageError</label>
+                    <label class="text-green-900">@messageSuccess</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
